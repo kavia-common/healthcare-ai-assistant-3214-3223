@@ -12,6 +12,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
  * - If REACT_APP_BACKEND_URL is set, the frontend API client will call that URL directly
  *   and this proxy will be bypassed. This proxy is specifically for local dev using the default `/api` base path.
  * - Adjust target BASE_BACKEND if your backend runs on a different host/port.
+ * - Production/preview builds DO NOT use this proxy; ensure REACT_APP_BACKEND_URL points to the backend root.
  */
 module.exports = function (app) {
   const BASE_BACKEND =

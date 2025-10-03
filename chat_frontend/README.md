@@ -17,7 +17,12 @@ Copy `.env.example` to `.env` and set the backend URL:
 ```
 REACT_APP_BACKEND_URL=http://localhost:8000
 ```
-If not set, the app will use `/api` as a relative base path (configure your dev proxy accordingly).
+Guidelines:
+- Do NOT include a trailing slash.
+- Do NOT append `/api`. The app calls routes like `${BASE_URL}/patients`.
+- For the hosted backend in this project, you can set:
+  `REACT_APP_BACKEND_URL=https://vscode-internal-24827-beta.beta01.cloud.kavia.ai:3001`
+If not set, the app will use `/api` as a relative base path (configure your dev proxy accordingly via `src/setupProxy.js`).
 
 ## Scripts
 - `npm start` – Start development server
