@@ -1,0 +1,4 @@
+{
+    "command": "npm run test",
+    "working_directory": "/home/kavia/workspace/code-generation/healthcare-ai-assistant-3214-3223/chat_frontend"
+}
