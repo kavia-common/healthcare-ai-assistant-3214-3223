@@ -81,16 +81,33 @@ function App() {
 
   // PUBLIC_INTERFACE
   const handleCreatePatient = async () => {
-    const name = prompt("Enter patient name:");
-    if (!name) return;
+    const raw = prompt("Enter patient name:");
+    if (raw === null) return; // user cancelled
+    const name = (raw || "").trim();
+
+    // Basic validation to avoid backend 422/400
+    if (name.length < 2) {
+      setError("Patient name must be at least 2 characters.");
+      return;
+    }
+
     setSavingPatient(true);
+    setError("");
+
     try {
       const saved = await createOrUpdatePatient({ name });
-      setPatients((prev) => [saved, ...prev]);
+
+      // Verify backend returned required fields
+      if (!saved || !saved.id || !saved.name) {
+        throw new Error("Backend did not return a valid patient record.");
+      }
+
+      setPatients((prev) => [saved, ...prev.filter((p) => p.id !== saved.id)]);
       setActivePatient(saved);
     } catch (e) {
       console.error(e);
-      setError("Unable to create patient.");
+      const msg = (e && e.message) ? e.message : "Unable to create patient.";
+      setError(msg);
     } finally {
       setSavingPatient(false);
     }
